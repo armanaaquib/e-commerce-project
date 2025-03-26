@@ -1,7 +1,6 @@
 package com.ju.e_commerce_project.filter;
 
 import com.ju.e_commerce_project.service.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,6 +54,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         }
 
-        chain.doFilter(request, response); // Continue the filter chain
+        chain.doFilter(request, response);
     }
 }
