@@ -47,6 +47,8 @@ public class AuthService {
                 userRequest.email(),
                 userRequest.firstName(),
                 userRequest.lastName(),
+                userRequest.phoneNumber(),
+                userRequest.address(),
                 userRequest.role()
         );
         userRepository.save(user);
