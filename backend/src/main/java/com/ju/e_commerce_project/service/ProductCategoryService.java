@@ -3,7 +3,6 @@ package com.ju.e_commerce_project.service;
 import com.ju.e_commerce_project.exception.ProductCategoryNotFoundException;
 import com.ju.e_commerce_project.model.ProductCategory;
 import com.ju.e_commerce_project.repository.ProductCategoryRepository;
-import io.micrometer.observation.Observation;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

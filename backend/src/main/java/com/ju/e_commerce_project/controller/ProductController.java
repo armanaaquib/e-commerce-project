@@ -15,8 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
+    private final ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/")
     public ResponseEntity<ProductResponse> addProduct(@RequestBody @Valid AddProductRequest productRequest) {
@@ -44,7 +49,7 @@ public class ProductController {
                 product.getPrice(),
                 product.getCategory().getName()
         )).toList();
-        
+
         return ResponseEntity.ok(productResponses);
     }
 }

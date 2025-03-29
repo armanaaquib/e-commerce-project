@@ -35,25 +35,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         final String authHeader  = request.getHeader("Authorization");
-        String username;
-        String jwtToken;
+        String username = null;
+        String jwtToken = null;
         HashMap<String, String> errorDetails = new HashMap<>();
 
         // Check if the header exists and starts with "Bearer "
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            errorDetails.put("error", "Missing or invalid Authorization header");
-            errorResponse(response, errorDetails);
-            return;
-        }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwtToken = authHeader.substring(7);
 
-        jwtToken = authHeader.substring(7);
-        try {
-            username = jwtService.extractUsername(jwtToken);
-        } catch (Exception e) {
-            errorDetails.put("error", "Invalid JWT token");
-            errorDetails.put("details", e.getMessage());
-            errorResponse(response, errorDetails);
-            return;
+            try {
+                username = jwtService.extractUsername(jwtToken);
+            } catch (Exception e) {
+                errorDetails.put("error", "Invalid JWT token");
+                errorDetails.put("details", e.getMessage());
+                errorResponse(response, errorDetails);
+                return;
+            }
         }
 
         // Only attempt to authenticate if we have a username and no existing authentication
