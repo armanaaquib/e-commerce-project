@@ -1,6 +1,7 @@
 package com.ju.e_commerce_project.config;
 
 import com.ju.e_commerce_project.filter.JwtAuthFilter;
+import com.ju.e_commerce_project.model.UserRole;
 import com.ju.e_commerce_project.repository.UserRepository;
 import com.ju.e_commerce_project.service.UserDetailsServiceImp;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,8 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/products/category/*").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole(UserRole.Seller.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

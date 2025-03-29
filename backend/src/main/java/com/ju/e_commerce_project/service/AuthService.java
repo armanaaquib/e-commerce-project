@@ -13,8 +13,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -73,5 +76,13 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         return new LoginUserResponse(userRequest.username(), token);
+    }
+
+    public User findUserByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return userOptional.get();
     }
 }

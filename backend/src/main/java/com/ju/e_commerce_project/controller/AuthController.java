@@ -5,6 +5,7 @@ import com.ju.e_commerce_project.dto.reponse.RegisterUserResponse;
 import com.ju.e_commerce_project.dto.request.LoginUserRequest;
 import com.ju.e_commerce_project.dto.request.RegisterUserRequest;
 import com.ju.e_commerce_project.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +25,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody RegisterUserRequest userRequest) {
+    public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody @Valid RegisterUserRequest userRequest) {
         return ResponseEntity.ok(authService.registerUser(userRequest));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody LoginUserRequest userRequest) {
+    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody @Valid LoginUserRequest userRequest) {
         return ResponseEntity.ok(authService.loginUser(userRequest));
     }
 
