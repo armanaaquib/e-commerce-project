@@ -84,22 +84,6 @@ class AuthorizationTest {
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"Seller"})
-//    void givenSellerEndpoint_whenRequestWithSellerRole_thenReturnsOk() throws Exception {
-//        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername("testuser").password("encodedPassword").roles(UserRole.Seller.name()).build();
-//        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
-//        when(jwtService.extractUsername(jwtToken)).thenReturn("testuser");
-//        when(jwtService.isTokenValid(jwtToken, userDetails)).thenReturn(true);
-//        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/products/")
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"name\":\"Test Product\",\"description\":\"Test Description\",\"price\":10.00,\"categoryId\":1,\"sellerId\":1}"))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
-
     @Test
     @WithMockUser(username = "testuser", roles = {"Customer"})
     void givenSellerEndpoint_whenRequestWithCustomerRole_thenReturnsForbidden() throws Exception {
