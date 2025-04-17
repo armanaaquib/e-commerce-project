@@ -10,10 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductCategoryServiceTest {
@@ -47,5 +50,23 @@ class ProductCategoryServiceTest {
         assertThrows(ProductCategoryNotFoundException.class, () -> {
             productCategoryService.findCategoryById(categoryId);
         });
+    }
+
+    @Test
+    void getAllCategories_shouldReturnListOfCategories_whenRepositoryReturnsCategories() {
+        ProductCategory cat1 = new ProductCategory("Electronics");
+        cat1.setId(1L);
+        ProductCategory cat2 = new ProductCategory("Books");
+        cat2.setId(2L);
+        List<ProductCategory> expectedCategories = Arrays.asList(cat1, cat2);
+
+        when(productCategoryRepository.findAll()).thenReturn(expectedCategories);
+
+        List<ProductCategory> actualCategories = productCategoryService.getAllCategories();
+
+        assertNotNull(actualCategories, "The returned list should not be null.");
+        assertEquals(2, actualCategories.size(), "The list size should match the expected size.");
+        assertEquals(expectedCategories, actualCategories, "The returned list should match the expected list.");
+        verify(productCategoryRepository, times(1)).findAll();
     }
 }

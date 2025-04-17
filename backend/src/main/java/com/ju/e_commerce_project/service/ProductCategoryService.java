@@ -5,6 +5,7 @@ import com.ju.e_commerce_project.model.ProductCategory;
 import com.ju.e_commerce_project.repository.ProductCategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,9 @@ public class ProductCategoryService {
         }
 
         return categoryOptional.get();
+    }
+
+    public List<ProductCategory> getAllCategories() {
+        return productCategoryRepository.findAll();
     }
 }

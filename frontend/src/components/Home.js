@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './Home.css'; // Import CSS file
+import './Home.css';
 
 function Home() {
     const [categories, setCategories] = useState([]);
@@ -9,7 +9,7 @@ function Home() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('/api/categories');
+                const response = await axios.get('/api/product-categories');
                 setCategories(response.data);
             } catch (error) {
                 console.error('Failed to fetch categories', error);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import './ProductList.css'; // Import CSS file
+import './ProductList.css';
 
 function ProductList() {
     const [products, setProducts] = useState([]);
