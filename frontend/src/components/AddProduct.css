@@ -1,0 +1,94 @@
+/* src/components/AddProduct.css */
+
+.add-product-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.add-product-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.add-product-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form textarea,
+.add-product-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    font-size: 1rem;
+}
+
+.add-product-form textarea {
+    min-height: 100px;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.add-product-form select:disabled {
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+.add-product-form button[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    /* background-color: #007bff; */ /* Old blue color */
+    background-color: #28a745; /* New green color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-product-form button[type="submit"]:hover {
+    /* background-color: #0056b3; */ /* Old blue hover color */
+    background-color: #218838; /* New darker green hover color */
+}
+
+.add-product-form button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #dc3545; /* Bootstrap danger color */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Reddish border */
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+/* Add asterisk for required fields */
+.add-product-form label::after {
+ content: " *";
+ color: red;
+}
+
+/* Hide asterisk for non-required fields if needed */
+.add-product-form label[for="description"]::after {
+ content: ""; /* Override for optional fields */
+}

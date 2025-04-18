@@ -1,42 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import './ProductList.css';
+import { useParams } from 'react-router-dom';
+import './ProductList.css'; // Ensure this CSS file exists or create it
 
 function ProductList() {
     const [products, setProducts] = useState([]);
+    const [categoryName, setCategoryName] = useState(''); // Optional: To display category name
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { categoryId } = useParams();
-    const userRole = localStorage.getItem('userRole');
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchProductsAndCategory = async () => {
+            setLoading(true);
+            setError(null);
             try {
-                const response = await axios.get(`/api/products/category/${categoryId}`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` },
+                // Fetch products for the category
+                const productsResponse = await axios.get(`/api/products/category/${categoryId}`, {
+                    // No token needed if product listing is public, add if required
+                    // headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
                 });
-                setProducts(response.data);
-            } catch (error) {
-                console.error('Failed to fetch products', error);
+                setProducts(productsResponse.data);
+
+                // Optional: Fetch category details to display the name
+                // This assumes an endpoint like /api/product-categories/{id} exists
+                try {
+                    const categoryResponse = await axios.get(`/api/product-categories/${categoryId}`);
+                    setCategoryName(categoryResponse.data.name);
+                } catch (catError) {
+                    console.warn('Could not fetch category name', catError);
+                    setCategoryName('Selected Category'); // Fallback name
+                }
+
+            } catch (err) {
+                console.error('Failed to fetch products', err);
+                setError('Could not load products. Please try again later.');
+                setProducts([]); // Clear products on error
+            } finally {
+                setLoading(false);
             }
         };
-        fetchProducts();
-    }, [categoryId]);
+        fetchProductsAndCategory();
+    }, [categoryId]); // Re-run effect if categoryId changes
 
     return (
         <div className="product-list-container">
-            {userRole === 'SELLER' && (
-                <Link to="/add-product" className="add-product-button">
-                    Add Product
-                </Link>
+            {/* Display category name if available */}
+            <h2>{loading ? 'Loading Products...' : `${categoryName} Products`}</h2>
+
+            {error && <p className="error-message">{error}</p>}
+
+            {loading && <p>Loading...</p> /* Optional loading indicator */}
+
+            {!loading && !error && products.length === 0 && (
+                <p>No products found in this category.</p>
             )}
-            <h2>Products</h2>
-            <ul className="product-list">
-                {products.map((product) => (
-                    <li key={product.id} className="product-item">
-                        {product.name} - ${product.price}
-                    </li>
-                ))}
-            </ul>
+
+            {!loading && !error && products.length > 0 && (
+                <div className="product-grid">
+                    {products.map((product) => (
+                        <div key={product.id} className="product-card">
+                            {/* Placeholder for an image - Add img tag when image URLs are available */}
+                            <div className="product-image-placeholder">
+                                <span>Image Placeholder</span>
+                            </div>
+                            <div className="product-info">
+                                <h3 className="product-name">{product.name}</h3>
+                                {/* Display description if available in the API response */}
+                                {product.description && <p className="product-description">{product.description}</p>}
+                                <p className="product-price">Rs. {product.price.toFixed(2)}</p> {/* Format price */}
+                                {/* Add to Cart Button (Example) */}
+                                <button className="add-to-cart-button">Add to Cart</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

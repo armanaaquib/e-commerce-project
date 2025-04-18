@@ -74,8 +74,9 @@ public class AuthService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userRequest.username());
         String token = jwtService.generateToken(userDetails);
+        User user = findUserByUsername(userRequest.username());
 
-        return new LoginUserResponse(userRequest.username(), token);
+        return new LoginUserResponse(userRequest.username(), token, user.getRole());
     }
 
     public User findUserByUsername(String username) {

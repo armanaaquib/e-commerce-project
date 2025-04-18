@@ -15,3 +15,14 @@
     color: #333;
     border-radius: 4px;
 }
+
+.add-product-button {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: inline-block;
+}

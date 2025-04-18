@@ -5,6 +5,7 @@ import './Home.css';
 
 function Home() {
     const [categories, setCategories] = useState([]);
+    const userRole = localStorage.getItem('userRole');
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -28,6 +29,11 @@ function Home() {
                     </Link>
                 ))}
             </div>
+            {userRole === 'Seller' && (
+                <Link to="/add-product" className="add-product-button">
+                    Add Product
+                </Link>
+            )}
         </div>
     );
 }

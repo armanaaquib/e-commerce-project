@@ -12,8 +12,8 @@ function App() {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
             setIsLoggedIn(true);
             setUsername(localStorage.getItem('username'));
         } else {
@@ -23,7 +23,7 @@ function App() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('jwt');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('username');
         localStorage.removeItem('userRole');
         setIsLoggedIn(false);

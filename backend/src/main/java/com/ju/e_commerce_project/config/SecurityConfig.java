@@ -31,8 +31,8 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/products/category/*").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/product-categories").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/products/category/*").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole(UserRole.Seller.name())
                         .anyRequest().authenticated()
                 )
