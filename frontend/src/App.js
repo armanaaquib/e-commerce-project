@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
-// import ProductList from './components/ProductList'; // Remove this import
-import AddProduct from './components/AddProduct';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import AddProduct from './components/prouduct/AddProduct';
 import Home from './components/Home';
 import './App.css';
 
@@ -20,7 +19,6 @@ function App() {
             setIsLoggedIn(false);
             setUsername('');
         }
-        // Listen for storage changes to update login state across tabs (optional but good practice)
         const handleStorageChange = () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
@@ -32,14 +30,13 @@ function App() {
             }
         };
         window.addEventListener('storage', handleStorageChange);
-        // Re-check on focus in case login/logout happened in another tab
         window.addEventListener('focus', handleStorageChange);
 
         return () => {
             window.removeEventListener('storage', handleStorageChange);
             window.removeEventListener('focus', handleStorageChange);
         };
-    }, []); // Run only once on initial mount
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -47,8 +44,6 @@ function App() {
         localStorage.removeItem('userRole');
         setIsLoggedIn(false);
         setUsername('');
-        // Optionally redirect to home or login page
-        // window.location.href = '/login';
     };
 
     return (
@@ -75,11 +70,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    {/* Remove the ProductList route */}
-                    {/* <Route path="/products/category/:categoryId" element={<ProductList />} /> */}
                     <Route path="/add-product" element={<AddProduct />} />
-                    {/* Optional: Add a 404 Not Found route */}
-                    {/* <Route path="*" element={<div>Page Not Found</div>} /> */}
                 </Routes>
             </div>
         </Router>
