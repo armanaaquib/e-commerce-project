@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Keep Link for Add Product button
-import './Home.css';
+import { Link } from 'react-router-dom';
+import ProductList from './prouduct/ProductList';
+import './Home.css'; // Keep Home.css for category styles etc.
 
 function Home() {
     // Category State
@@ -12,7 +13,7 @@ function Home() {
     // Product State
     const [products, setProducts] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-    const [loadingProducts, setLoadingProducts] = useState(false); // Initially false, true when fetching
+    const [loadingProducts, setLoadingProducts] = useState(false);
     const [productError, setProductError] = useState(null);
 
     const userRole = localStorage.getItem('userRole');
@@ -24,14 +25,16 @@ function Home() {
         const fetchCategories = async () => {
             setLoadingCategories(true);
             setCategoryError(null);
+            setProductError(null); // Reset product error when fetching categories
+            setProducts([]); // Clear products when categories reload
+            setSelectedCategoryId(null); // Reset selected category
             try {
                 const response = await axios.get('/api/product-categories');
                 setCategories(response.data);
-                // *** Automatically select the first category if available ***
+                // Automatically select the first category if available
                 if (response.data && response.data.length > 0) {
                     setSelectedCategoryId(response.data[0].id); // Set the first category as selected
                 } else {
-                    // Handle case with no categories
                     setProducts([]); // Ensure products are cleared if no categories exist
                 }
             } catch (error) {
@@ -65,8 +68,13 @@ function Home() {
                 }
             };
             fetchProducts();
+        } else if (selectedCategoryId === null && !loadingCategories && categories.length > 0) {
+            // If categories loaded but none is selected (e.g., after an error or initial load issue)
+            // Optionally clear products or show a specific message
+             setProducts([]);
+             setProductError(null); // Clear any previous product error
         }
-    }, [selectedCategoryId, loadingCategories]); // Re-run when selectedCategoryId changes or categories finish loading
+    }, [selectedCategoryId, loadingCategories, categories]); // Add categories dependency
 
     // --- Handlers ---
     const handleCategoryClick = (categoryId) => {
@@ -91,10 +99,9 @@ function Home() {
                         categories.map((category) => (
                             <button
                                 key={category.id}
-                                // Use button instead of Link for same-page interaction
                                 className={`category-item ${category.id === selectedCategoryId ? 'active' : ''}`}
                                 onClick={() => handleCategoryClick(category.id)}
-                                disabled={loadingProducts} // Disable while products are loading
+                                disabled={loadingProducts || loadingCategories} // Disable while loading either
                             >
                                 {category.name}
                             </button>
@@ -112,39 +119,27 @@ function Home() {
 
             {/* --- Products Section --- */}
             <div className="products-section">
-                <h3>Products</h3>
-                {/* Show loading/error specific to products */}
-                {loadingProducts && <p>Loading products...</p>}
-                {productError && <p className="error-message">{productError}</p>}
+                 {/* Keep the H3 heading in Home or move it to ProductList */}
+                 <h3>Products</h3>
 
-                {/* Show products only if not loading, no error, and a category is selected */}
-                {!loadingProducts && !productError && selectedCategoryId !== null && (
-                    <>
-                        {products.length === 0 ? (
-                            <p>No products found in this category.</p>
-                        ) : (
-                            <div className="product-grid">
-                                {products.map((product) => (
-                                    <div key={product.id} className="product-card">
-                                        <div className="product-image-placeholder">
-                                            <span>Image Placeholder</span>
-                                        </div>
-                                        <div className="product-info">
-                                            <h4 className="product-name">{product.name}</h4>
-                                            {product.description && <p className="product-description">{product.description}</p>}
-                                            <p className="product-price">Rs. {product.price.toFixed(2)}</p>
-                                            <button className="add-to-cart-button">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </>
+                {/* Conditionally render ProductList or messages */}
+                {!loadingCategories && !categoryError && selectedCategoryId !== null && (
+                    <ProductList
+                        products={products}
+                        loading={loadingProducts}
+                        error={productError}
+                    />
                 )}
-                {/* Handle case where no category could be selected initially */}
-                {!loadingCategories && selectedCategoryId === null && !categoryError && (
-                     <p>Select a category to view products.</p>
+
+                {/* Message when no category is selected (and categories have loaded) */}
+                {!loadingCategories && selectedCategoryId === null && !categoryError && categories.length > 0 && (
+                     <p className="product-list-message">Select a category to view products.</p>
                 )}
+
+                 {/* Message when categories loaded but there are none */}
+                 {!loadingCategories && categories.length === 0 && !categoryError && (
+                     <p className="product-list-message">No categories available to display products.</p>
+                 )}
             </div>
         </div>
     );

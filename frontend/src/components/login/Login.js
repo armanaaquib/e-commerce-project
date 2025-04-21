@@ -21,24 +21,22 @@ function Login() {
     };
 
     return (
-        // Add the main container class
         <div className="login-container">
             <h2>Login</h2>
-            {/* Add the form class */}
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    required // Add basic validation
+                    required
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required // Add basic validation
+                    required
                 />
                 <button type="submit">Login</button>
             </form>
