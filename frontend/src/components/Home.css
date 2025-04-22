@@ -1,121 +1,63 @@
-/* Styles specifically for the Home component layout and category section */
-
 .home-container {
     max-width: 1200px;
-    margin: 2rem auto; /* Top/bottom margin, centered horizontally */
-    padding: 0 1rem; /* Padding on the sides */
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
-/* Headings within the Home component */
 .home-container h2,
 .home-container h3 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #333;
+    color: #333; /* Consistent Primary Text */
 }
 
-/* Styling for the category list container */
-.category-list {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: center; /* Center items horizontally */
-    gap: 0.75rem; /* Space between category items */
-    margin-bottom: 2rem; /* Space below the category list */
-    padding-bottom: 1.5rem; /* Padding before the border */
-    border-bottom: 1px solid #eee; /* Separator line */
-}
-
-/* Individual category button styling */
-.category-item {
-    padding: 0.6rem 1.2rem;
-    border: 1px solid #ccc;
-    background-color: #f8f9fa; /* Light background */
-    color: #007bff; /* Blue text */
-    text-decoration: none;
-    border-radius: 20px; /* Rounded corners */
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-/* Hover effect for category items */
-.category-item:hover {
-    background-color: #e2e6ea;
-    border-color: #bbb;
-    color: #0056b3; /* Darker blue on hover */
-}
-
-/* Styling for the currently active category item */
-.category-item.active {
-    background-color: #007bff; /* Blue background */
-    color: white;
-    border-color: #007bff;
-    font-weight: bold;
-}
-
-/* Styling for disabled category items (e.g., during loading) */
-.category-item:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-/* Styling for the "Add Product" button specific to the Home page */
 .add-product-button.home-add-product {
-    display: block; /* Make it a block element */
-    width: fit-content; /* Size to content */
-    margin: 0 auto 2rem auto; /* Center horizontally, add bottom margin */
+    display: block;
+    width: fit-content;
+    margin: 0 auto 2rem auto;
     padding: 0.7rem 1.5rem;
-    background-color: #28a745; /* Green background */
-    color: white;
+    background-color: #28a745; /* Consistent Primary Action Green */
+    color: white; /* Consistent Button Text */
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
     transition: background-color 0.2s ease;
 }
 
-/* Hover effect for the "Add Product" button */
 .add-product-button.home-add-product:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838; /* Consistent Primary Action Hover */
 }
 
-/* Container for the products section (holds the ProductList component or messages) */
 .products-section {
-    margin-top: 2rem; /* Space above the products section */
+    margin-top: 2rem;
 }
 
-/* Generic error message styling (can be used for category errors) */
-.error-message {
-    color: #dc3545; /* Red text */
-    background-color: #f8d7da; /* Light red background */
-    border: 1px solid #f5c6cb; /* Reddish border */
-    padding: 0.75rem 1.25rem;
-    margin: 1rem auto; /* Centered with margin */
-    border-radius: 0.25rem;
-    text-align: center;
-    max-width: 600px; /* Limit width */
-}
-
-/* Styling for messages shown in the product area (e.g., "Select a category") */
 .product-list-message {
     text-align: center;
     margin-top: 1.5rem;
-    color: #555;
+    color: #555; /* Consistent Secondary Text */
     font-style: italic;
 }
 
+.error-message {
+    color: #dc3545; /* Consistent Danger Text */
+    background-color: #f8d7da; /* Consistent Danger Background */
+    border: 1px solid #f5c6cb; /* Consistent Danger Border */
+    padding: 0.75rem 1.25rem;
+    margin: 1rem auto;
+    border-radius: 0.25rem;
+    text-align: center;
+    max-width: 600px;
+}
 
-/* Responsive adjustments for smaller screens */
+
 @media (max-width: 600px) {
-    .category-list {
-        gap: 0.5rem; /* Smaller gap between categories */
-    }
-    .category-item {
-        padding: 0.5rem 1rem; /* Slightly smaller padding */
-        font-size: 0.9rem; /* Slightly smaller font */
-    }
     .home-container h2,
     .home-container h3 {
-        font-size: 1.4rem; /* Adjust heading size */
+        font-size: 1.4rem;
+    }
+    .add-product-button.home-add-product {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
     }
 }
