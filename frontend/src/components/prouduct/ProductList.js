@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProductList.css'; // Import the new CSS file
+import './ProductList.css';
 
 function ProductList({ products, loading, error }) {
     if (loading) {

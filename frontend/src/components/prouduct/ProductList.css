@@ -6,13 +6,13 @@
 .product-list-error {
     text-align: center;
     margin-top: 1.5rem;
-    color: #555; /* Consistent Secondary Text */
+    color: #555;
 }
 
 .product-list-error {
-    color: #dc3545; /* Consistent Danger Text */
-    background-color: #f8d7da; /* Consistent Danger Background */
-    border: 1px solid #f5c6cb; /* Consistent Danger Border */
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
     padding: 0.75rem 1.25rem;
     margin: 1rem auto;
     border-radius: 0.25rem;
@@ -28,10 +28,10 @@
 }
 
 .product-card {
-    border: 1px solid #ccc; /* Consistent Border */
+    border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff; /* Consistent Container Background */
+    background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
@@ -45,11 +45,11 @@
 
 .product-image-placeholder {
     height: 180px;
-    background-color: #f8f9fa; /* Consistent Item Background */
+    background-color: #f8f9fa;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #bbb; /* Adjusted Placeholder Text */
+    color: #bbb;
     font-size: 0.9rem;
     text-align: center;
 }
@@ -64,7 +64,7 @@
 .product-name {
     font-size: 1.1rem;
     margin-bottom: 0.4rem;
-    color: #333; /* Consistent Primary Text */
+    color: #333;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +72,7 @@
 
 .product-description {
     font-size: 0.85rem;
-    color: #555; /* Consistent Secondary Text */
+    color: #555;
     margin-bottom: 0.6rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -86,13 +86,13 @@
 .product-price {
     font-size: 1rem;
     font-weight: bold;
-    color: #007bff; /* Consistent Info/Link Color */
+    color: #007bff;
     margin-bottom: 0.8rem;
     margin-top: auto;
 }
 
 .add-to-cart-button {
-    background-color: #28a745; /* Consistent Primary Action */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 0.5rem 0.8rem;
@@ -106,7 +106,7 @@
 }
 
 .add-to-cart-button:hover {
-    background-color: #218838; /* Consistent Primary Action Hover */
+    background-color: #218838;
 }
 
 

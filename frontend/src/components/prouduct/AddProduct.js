@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './AddProduct.css'; // Create this CSS file for styling
+import './AddProduct.css';
 
 function AddProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [categoryId, setCategoryId] = useState(''); // Will hold the selected category ID
-    const [categories, setCategories] = useState([]); // To store fetched categories
-    const [loadingCategories, setLoadingCategories] = useState(true); // Loading state for categories
-    const [error, setError] = useState(null); // To store potential errors
+    const [categoryId, setCategoryId] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [loadingCategories, setLoadingCategories] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // Fetch categories when the component mounts
     useEffect(() => {
         const fetchCategories = async () => {
             setLoadingCategories(true);
-            setError(null); // Reset error on new fetch attempt
+            setError(null);
             try {
-                // Assuming the endpoint is '/api/product-categories' based on Home.js
                 const response = await axios.get('/api/product-categories');
                 setCategories(response.data);
                 setLoadingCategories(false);
@@ -30,13 +28,12 @@ function AddProduct() {
             }
         };
         fetchCategories();
-    }, []); // Empty dependency array means this runs once on mount
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null); // Reset error before submission
+        setError(null);
 
-        // Basic validation check
         if (!name || !price || !categoryId) {
             setError('Please fill in all required fields (Name, Price, Category).');
             return;
@@ -46,23 +43,22 @@ function AddProduct() {
             const productData = {
                 name,
                 description,
-                price: parseFloat(price), // Ensure price is sent as a number
-                categoryId: parseInt(categoryId, 10) // Ensure categoryId is sent as a number
+                price: parseFloat(price),
+                categoryId: parseInt(categoryId, 10)
             };
 
             await axios.post(
                 '/api/products/',
                 productData,
-                // Use 'accessToken' consistent with Login.js
                 { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
             );
             alert('Product added successfully!');
-            navigate('/'); // Redirect to home or product list after adding product
+            navigate('/');
         } catch (err) {
             console.error('Failed to add product', err);
             const errorMessage = err.response?.data?.message || 'Failed to add product. Please check your input or try again later.';
             setError(errorMessage);
-            alert(errorMessage); // Also show alert for immediate feedback
+            alert(errorMessage);
         }
     };
 
@@ -102,8 +98,8 @@ function AddProduct() {
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
-                        step="0.01" // Allow decimal values
-                        min="0" // Prevent negative prices
+                        step="0.01"
+                        min="0"
                     />
                 </div>
 
@@ -114,7 +110,7 @@ function AddProduct() {
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
                         required
-                        disabled={loadingCategories} // Disable while loading
+                        disabled={loadingCategories}
                     >
                         <option value="" disabled>
                             {loadingCategories ? 'Loading categories...' : 'Select a Category'}

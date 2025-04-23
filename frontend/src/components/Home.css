@@ -8,7 +8,7 @@
 .home-container h3 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #333; /* Consistent Primary Text */
+    color: #333;
 }
 
 .add-product-button.home-add-product {
@@ -16,8 +16,8 @@
     width: fit-content;
     margin: 0 auto 2rem auto;
     padding: 0.7rem 1.5rem;
-    background-color: #28a745; /* Consistent Primary Action Green */
-    color: white; /* Consistent Button Text */
+    background-color: #28a745;
+    color: white;
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
@@ -25,7 +25,7 @@
 }
 
 .add-product-button.home-add-product:hover {
-    background-color: #218838; /* Consistent Primary Action Hover */
+    background-color: #218838;
 }
 
 .products-section {
@@ -35,14 +35,14 @@
 .product-list-message {
     text-align: center;
     margin-top: 1.5rem;
-    color: #555; /* Consistent Secondary Text */
+    color: #555;
     font-style: italic;
 }
 
 .error-message {
-    color: #dc3545; /* Consistent Danger Text */
-    background-color: #f8d7da; /* Consistent Danger Background */
-    border: 1px solid #f5c6cb; /* Consistent Danger Border */
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
     padding: 0.75rem 1.25rem;
     margin: 1rem auto;
     border-radius: 0.25rem;
