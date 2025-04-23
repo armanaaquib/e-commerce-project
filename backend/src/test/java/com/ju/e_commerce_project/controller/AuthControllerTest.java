@@ -4,6 +4,7 @@ import com.ju.e_commerce_project.dto.reponse.LoginUserResponse;
 import com.ju.e_commerce_project.dto.reponse.RegisterUserResponse;
 import com.ju.e_commerce_project.dto.request.LoginUserRequest;
 import com.ju.e_commerce_project.dto.request.RegisterUserRequest;
+import com.ju.e_commerce_project.model.UserRole;
 import com.ju.e_commerce_project.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +46,7 @@ class AuthControllerTest {
     @Test
     void loginUser_ValidRequest_ReturnsLoginUserResponse() {
         LoginUserRequest request = new LoginUserRequest("testuser", "password");
-        LoginUserResponse expectedResponse = new LoginUserResponse("testuser", "mockedToken");
+        LoginUserResponse expectedResponse = new LoginUserResponse("testuser", "mockedToken", UserRole.Customer);
         when(authService.loginUser(any(LoginUserRequest.class))).thenReturn(expectedResponse);
 
         ResponseEntity<LoginUserResponse> response = authController.loginUser(request);

@@ -91,7 +91,9 @@ class AuthServiceTest {
     @Test
     void loginUser_ValidCredentials_ReturnsLoginUserResponse() {
         LoginUserRequest request = new LoginUserRequest("testuser", "password");
+        User user = new User(request.username(), "encodedPassword", "test@example.com", "Test", "User", "1234567890", "Test Address", UserRole.Customer);
         UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(request.username()).password("encodedPassword").roles(UserRole.Customer.name()).build();
+        when(userRepository.findByUsername(request.username())).thenReturn(Optional.of(user));
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
         when(userDetailsService.loadUserByUsername(request.username())).thenReturn(userDetails);
         when(jwtService.generateToken(userDetails)).thenReturn("mockedToken");
