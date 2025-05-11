@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/api/products/category/*").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole(UserRole.Seller.name())
                         .requestMatchers(HttpMethod.GET, "/api/products/my-products").hasRole(UserRole.Seller.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/products/{productId}").hasRole(UserRole.Seller.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/products/{productId}").hasRole(UserRole.Seller.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

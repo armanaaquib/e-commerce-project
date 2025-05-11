@@ -2,6 +2,7 @@ package com.ju.e_commerce_project.controller;
 
 import com.ju.e_commerce_project.dto.reponse.ProductResponse;
 import com.ju.e_commerce_project.dto.request.AddProductRequest;
+import com.ju.e_commerce_project.dto.request.UpdateProductRequest;
 import com.ju.e_commerce_project.model.Product;
 import com.ju.e_commerce_project.service.ProductService;
 import jakarta.validation.Valid;
@@ -71,5 +72,33 @@ public class ProductController {
         )).toList();
 
         return ResponseEntity.ok(productResponses);
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable Long productId,
+            @RequestBody @Valid UpdateProductRequest updateRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sellerUsername = authentication.getName();
+
+        Product updatedProduct = productService.updateProduct(productId, updateRequest, sellerUsername);
+
+        ProductResponse productResponse = new ProductResponse(
+                updatedProduct.getId(),
+                updatedProduct.getName(),
+                updatedProduct.getDescription(),
+                updatedProduct.getPrice(),
+                updatedProduct.getCategory().getName()
+        );
+        return ResponseEntity.ok(productResponse);
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sellerUsername = authentication.getName();
+
+        productService.deleteProduct(productId, sellerUsername);
+        return ResponseEntity.noContent().build();
     }
 }
