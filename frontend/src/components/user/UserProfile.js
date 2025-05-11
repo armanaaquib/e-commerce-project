@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UserProfile.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function UserProfile() {
     const [profile, setProfile] = useState(null);
@@ -88,8 +88,9 @@ function UserProfile() {
                     <span className="detail-label">Role:</span>
                     <span className="detail-value">{profile.role}</span>
                 </div>
-                {/* Add an Edit Profile button later if needed */}
-                {/* <button className="edit-profile-button">Edit Profile</button> */}
+                <Link to="/profile/edit" className="edit-profile-button">
+                    Edit Profile
+                </Link>
             </div>
         </div>
     );

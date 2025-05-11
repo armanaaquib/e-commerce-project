@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
-import AddProduct from './components/prouduct/AddProduct';
+import AddProduct from './components/product/AddProduct';
 import Home from './components/Home';
-import UserProfile from './components/user/UserPorfile.js';
+import UserProfile from './components/user/UserProfile';
+import EditUserProfile from './components/user/EditUserPorfile';
 import './App.css'; 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/add-product" element={<AddProduct />} />
                         <Route path="/profile" element={isLoggedIn ? <UserProfile /> : <Login />} />
+                        <Route path="/profile/edit" element={isLoggedIn ? <EditUserProfile /> : <Login />} />
                         <Route path="*" element={<Home />} />
                     </Routes>
                 </main>
