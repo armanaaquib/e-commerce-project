@@ -1,7 +1,7 @@
 package com.ju.e_commerce_project.controller;
 
-import com.ju.e_commerce_project.dto.reponse.LoginUserResponse;
-import com.ju.e_commerce_project.dto.reponse.RegisterUserResponse;
+import com.ju.e_commerce_project.dto.response.LoginUserResponse;
+import com.ju.e_commerce_project.dto.response.RegisterUserResponse;
 import com.ju.e_commerce_project.dto.request.LoginUserRequest;
 import com.ju.e_commerce_project.dto.request.RegisterUserRequest;
 import com.ju.e_commerce_project.service.AuthService;

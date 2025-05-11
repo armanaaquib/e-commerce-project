@@ -1,6 +1,6 @@
 package com.ju.e_commerce_project.controller;
 
-import com.ju.e_commerce_project.dto.reponse.ProductResponse;
+import com.ju.e_commerce_project.dto.response.ProductResponse;
 import com.ju.e_commerce_project.dto.request.AddProductRequest;
 import com.ju.e_commerce_project.dto.request.UpdateProductRequest;
 import com.ju.e_commerce_project.model.Product;

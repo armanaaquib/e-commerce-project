@@ -10,13 +10,13 @@ function Header({ isLoggedIn, username, userRole, onLogout }) {
             <div className="auth-buttons">
                 {isLoggedIn ? (
                     <div className="user-info">
+                         {userRole === 'Seller' && (
+                            <Link to="/my-products" className="my-products-link">My Products</Link>
+                         )}
                         <Link to="/profile" className="user-profile-link" title={username}>
                             <span className="user-icon">👤</span>
                             <span className="username-display">{username}</span>
                         </Link>
-                        {userRole === 'Seller' && (
-                            <Link to="/my-products" className="my-products-link">My Products</Link>
-                        )}
                         <button onClick={onLogout} className="logout-button">Logout</button>
                     </div>
                 ) : (

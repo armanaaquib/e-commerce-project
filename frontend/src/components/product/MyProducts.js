@@ -8,6 +8,8 @@ function MyProducts() {
     const [myProducts, setMyProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [deleteError, setDeleteError] = useState('');
+    const [deletingProductId, setDeletingProductId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,10 +50,54 @@ function MyProducts() {
         fetchMyProducts();
     }, []);
 
+     const handleProductDelete = async (productId) => {
+            if (!window.confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+
+            const token = localStorage.getItem('accessToken');
+            if (!token) {
+                setDeleteError('Authentication token not found. Please log in again.');
+                navigate('/login');
+                return;
+            }
+
+            setDeletingProductId(productId);
+            setDeleteError('');
+
+            try {
+                await axios.delete(`api/products/${productId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setMyProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+            } catch (err) {
+                console.error("Error deleting product:", err);
+                if (err.response) {
+                     if (err.response.status === 401 || err.response.status === 403) {
+                        setDeleteError('Unauthorized to delete this product or session expired.');
+                    } else {
+                        setDeleteError(err.response.data?.message || 'Failed to delete product. Please try again.');
+                    }
+                } else {
+                    setDeleteError('Network error or server is unavailable.');
+                }
+            } finally {
+                setDeletingProductId(null);
+            }
+        };
+
     return (
         <div className="my-products-page-container">
             <h2>My Products</h2>
-            <ProductList products={myProducts} loading={loading} error={error} />
+            <ProductList
+                products={myProducts}
+                isSellerView={true}
+                loading={loading}
+                error={error}
+                onProductDelete={handleProductDelete}
+            />
             {!loading && !error && myProducts.length === 0 && (
                 <p className="product-list-message my-products-empty-message">
                     You haven't added any products yet.

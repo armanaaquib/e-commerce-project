@@ -109,6 +109,36 @@
     background-color: #218838;
 }
 
+.seller-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.delete-product-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.delete-product-button:hover {
+    background-color: #c82333;
+}
+
+.product-list-error { 
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
 
 @media (max-width: 600px) {
     .product-grid {

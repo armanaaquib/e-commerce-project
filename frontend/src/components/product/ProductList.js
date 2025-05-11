@@ -1,7 +1,7 @@
 import React from 'react';
 import './ProductList.css';
 
-function ProductList({ products, loading, error }) {
+function ProductList({ products, loading, error, isSellerView = false, onProductDelete }) {
     if (loading) {
         return <p className="product-list-message">Loading products...</p>;
     }
@@ -11,8 +11,15 @@ function ProductList({ products, loading, error }) {
     }
 
     if (!products || products.length === 0) {
-        return <p className="product-list-message">No products found in this category.</p>;
+        const message = isSellerView ? "No products found." : "No products found in this category.";
+        return <p className="product-list-message">{message}</p>;
     }
+
+    const handleDeleteClick = (productId) => {
+        if (onProductDelete) {
+            onProductDelete(productId);
+        }
+    };
 
     return (
         <div className="product-list-container">
@@ -20,8 +27,6 @@ function ProductList({ products, loading, error }) {
                 {products.map((product) => (
                     <div key={product.id} className="product-card">
                         <div className="product-image-placeholder">
-                            {/* Will Add image here when we add in backend in future */}
-                            {/* <img src={product.imageUrl || '/placeholder.png'} alt={product.name} /> */}
                             <span>Image Placeholder</span>
                         </div>
                         <div className="product-info">
@@ -30,8 +35,19 @@ function ProductList({ products, loading, error }) {
                                 <p className="product-description">{product.description}</p>
                             )}
                             <p className="product-price">Rs. {product.price.toFixed(2)}</p>
-                            {/* Add to Cart functionality will implemented in next cycle */}
-                            <button className="add-to-cart-button">Add to Cart</button>
+                            {isSellerView ? (
+                                <div className="seller-actions">
+                                    {/* Add Edit button later if needed */}
+                                    {/* <button className="edit-product-button">Edit</button> */}
+                                    <button 
+                                        onClick={() => handleDeleteClick(product.id)} 
+                                        className="delete-product-button"
+                                        title="Delete Product"
+                                   > Delete </button>
+                                </div>
+                            ) : (
+                                <button className="add-to-cart-button">Add to Cart</button>
+                            )}
                         </div>
                     </div>
                 ))}

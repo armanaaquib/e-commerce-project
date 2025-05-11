@@ -1,7 +1,7 @@
 package com.ju.e_commerce_project.controller;
 
 import com.ju.e_commerce_project.dto.request.UpdateUserRequest;
-import com.ju.e_commerce_project.dto.reponse.UserResponse;
+import com.ju.e_commerce_project.dto.response.UserResponse;
 import com.ju.e_commerce_project.model.User;
 import com.ju.e_commerce_project.service.UserService;
 import jakarta.validation.Valid;
