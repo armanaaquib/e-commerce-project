@@ -5,6 +5,7 @@ import Login from './components/login/Login';
 import Register from './components/register/Register';
 import AddProduct from './components/prouduct/AddProduct';
 import Home from './components/Home';
+import UserProfile from './components/user/UserPorfile.js';
 import './App.css'; 
 
 function App() {
@@ -44,6 +45,8 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/add-product" element={<AddProduct />} />
+                        <Route path="/profile" element={isLoggedIn ? <UserProfile /> : <Login />} />
+                        <Route path="*" element={<Home />} />
                     </Routes>
                 </main>
             </div>

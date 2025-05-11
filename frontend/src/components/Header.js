@@ -10,8 +10,10 @@ function Header({ isLoggedIn, username, onLogout }) {
             <div className="auth-buttons">
                 {isLoggedIn ? (
                     <div className="user-info">
-                        <span className="user-icon" title={username}>👤</span>
-                        <span className="username-display">{username}</span>
+                        <Link to="/profile" className="user-profile-link" title={username}>
+                            <span className="user-icon">👤</span>
+                            <span className="username-display">{username}</span>
+                        </Link>
                         <button onClick={onLogout} className="logout-button">Logout</button>
                     </div>
                 ) : (
