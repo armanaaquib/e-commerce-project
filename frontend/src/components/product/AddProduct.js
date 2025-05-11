@@ -52,7 +52,6 @@ function AddProduct() {
                 productData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
             );
-            alert('Product added successfully!');
             navigate('/');
         } catch (err) {
             console.error('Failed to add product', err);

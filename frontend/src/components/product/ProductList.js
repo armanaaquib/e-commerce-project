@@ -1,7 +1,7 @@
 import React from 'react';
 import './ProductList.css';
 
-function ProductList({ products, loading, error, isSellerView = false, onProductDelete, onProductEdit }) {
+function ProductList({ products, loading, error, onProductDelete, onProductEdit, userRole }) {
     if (loading) {
         return <p className="product-list-message">Loading products...</p>;
     }
@@ -11,7 +11,9 @@ function ProductList({ products, loading, error, isSellerView = false, onProduct
     }
 
     if (!products || products.length === 0) {
-        const message = isSellerView ? "No products found." : "No products found in this category.";
+        const message = userRole === 'Seller'
+            ? "You haven't added any products yet."
+            : "No products found in this category.";
         return <p className="product-list-message">{message}</p>;
     }
 
@@ -41,24 +43,23 @@ function ProductList({ products, loading, error, isSellerView = false, onProduct
                                 <p className="product-description">{product.description}</p>
                             )}
                             <p className="product-price">Rs. {product.price.toFixed(2)}</p>
-                            {isSellerView ? (
+                            {userRole === 'Seller' && onProductEdit && onProductDelete ? (
                                 <div className="seller-actions">
                                      <button
                                         onClick={() => handleEditClick(product)}
                                         className="edit-product-button"
                                         title="Edit Product"
-                                     >
-                                        Edit
-                                     </button>
-                                    <button 
-                                        onClick={() => handleDeleteClick(product.id)} 
+                                     > Edit </button>
+                                    <button
+                                        onClick={() => handleDeleteClick(product.id)}
                                         className="delete-product-button"
                                         title="Delete Product"
                                    > Delete </button>
                                 </div>
-                            ) : (
+                            ) : userRole === 'Customer' ? (
                                 <button className="add-to-cart-button">Add to Cart</button>
-                            )}
+                            ) : null
+                            }
                         </div>
                     </div>
                 ))}

@@ -102,6 +102,7 @@ function Home() {
                         products={products}
                         loading={loadingProducts}
                         error={productError}
+                        userRole={userRole}
                     />
                  )}
                  {!loadingCategories && selectedCategoryId === null && !categoryError && categories.length > 0 && (

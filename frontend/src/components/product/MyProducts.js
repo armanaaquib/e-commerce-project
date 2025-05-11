@@ -12,6 +12,8 @@ function MyProducts() {
     const [deletingProductId, setDeletingProductId] = useState(null);
     const navigate = useNavigate();
 
+    const userRole = localStorage.getItem('userRole');
+
     useEffect(() => {
         const fetchMyProducts = async () => {
             const token = localStorage.getItem('accessToken');
@@ -97,9 +99,9 @@ function MyProducts() {
             <h2>My Products</h2>
             <ProductList
                 products={myProducts}
-                isSellerView={true}
                 loading={loading}
                 error={error}
+                userRole={userRole}
                 onProductDelete={handleProductDelete}
                 onProductEdit={handleProductEdit}
             />
