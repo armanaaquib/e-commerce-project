@@ -89,12 +89,6 @@ function Home() {
                 disabled={loadingProducts}
             />
 
-            {userRole === 'Seller' && (
-                <Link to="/add-product" className="add-product-button home-add-product">
-                    Add Product
-                </Link>
-            )}
-
             <div className="products-section">
                  <h3>Products</h3>
                  {!loadingCategories && !categoryError && selectedCategoryId !== null && (

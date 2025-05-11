@@ -4,15 +4,42 @@
     padding: 20px;
 }
 
-.my-products-page-container h2 {
-    text-align: center;
+.my-products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
-    color: #333; 
 }
 
-.my-products-empty-message {
+.my-products-page-container h2 {
+    color: #333;
+    margin: 0;
+}
+
+/* Styling for the Add Product button on this page */
+.my-products-add-button {
+    padding: 10px 15px;
+    background-color: #28a745; /* Green color, same as AddProduct form button */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    border: none; /* If it's a Link styled as a button */
+    cursor: pointer;
+}
+
+.my-products-add-button:hover {
+    background-color: #218838; /* Darker green */
+}
+
+/* Error message styling (if not already globally defined or in ProductList.css) */
+.error-message.product-list-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
     text-align: center;
-    margin-top: 20px;
-    font-size: 1.1em;
-    color: #555;
+    margin-bottom: 15px;
 }

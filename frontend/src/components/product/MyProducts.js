@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductList from './ProductList';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './MyProducts.css';
 
 function MyProducts() {
@@ -96,7 +96,15 @@ function MyProducts() {
 
     return (
         <div className="my-products-page-container">
-            <h2>My Products</h2>
+            <div className="my-products-header">
+                <h2>My Products</h2>
+                <Link to="/add-product" className="add-product-button my-products-add-button">
+                    Add New Product
+                </Link>
+            </div>
+
+            {deleteError && <p className="error-message product-list-error" style={{textAlign: 'center', marginBottom: '15px'}}>{deleteError}</p>}
+
             <ProductList
                 products={myProducts}
                 loading={loading}
@@ -105,11 +113,6 @@ function MyProducts() {
                 onProductDelete={handleProductDelete}
                 onProductEdit={handleProductEdit}
             />
-            {!loading && !error && myProducts.length === 0 && (
-                <p className="product-list-message my-products-empty-message">
-                    You haven't added any products yet.
-                </p>
-            )}
         </div>
     );
 }
