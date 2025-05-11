@@ -140,6 +140,22 @@
     text-align: center;
 }
 
+.edit-product-button {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease-in-out;
+    margin-right: 5px; /* Space between edit and delete */
+}
+
+.edit-product-button:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+
 @media (max-width: 600px) {
     .product-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

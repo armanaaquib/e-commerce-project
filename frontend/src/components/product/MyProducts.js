@@ -51,42 +51,46 @@ function MyProducts() {
     }, []);
 
      const handleProductDelete = async (productId) => {
-            if (!window.confirm('Are you sure you want to delete this product?')) {
-                return;
-            }
+        if (!window.confirm('Are you sure you want to delete this product?')) {
+            return;
+        }
 
-            const token = localStorage.getItem('accessToken');
-            if (!token) {
-                setDeleteError('Authentication token not found. Please log in again.');
-                navigate('/login');
-                return;
-            }
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            setDeleteError('Authentication token not found. Please log in again.');
+            navigate('/login');
+            return;
+        }
 
-            setDeletingProductId(productId);
-            setDeleteError('');
+        setDeletingProductId(productId);
+        setDeleteError('');
 
-            try {
-                await axios.delete(`api/products/${productId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setMyProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
-            } catch (err) {
-                console.error("Error deleting product:", err);
-                if (err.response) {
-                     if (err.response.status === 401 || err.response.status === 403) {
-                        setDeleteError('Unauthorized to delete this product or session expired.');
-                    } else {
-                        setDeleteError(err.response.data?.message || 'Failed to delete product. Please try again.');
-                    }
-                } else {
-                    setDeleteError('Network error or server is unavailable.');
+        try {
+            await axios.delete(`api/products/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
-            } finally {
-                setDeletingProductId(null);
+            });
+            setMyProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+        } catch (err) {
+            console.error("Error deleting product:", err);
+            if (err.response) {
+                 if (err.response.status === 401 || err.response.status === 403) {
+                    setDeleteError('Unauthorized to delete this product or session expired.');
+                } else {
+                    setDeleteError(err.response.data?.message || 'Failed to delete product. Please try again.');
+                }
+            } else {
+                setDeleteError('Network error or server is unavailable.');
             }
-        };
+        } finally {
+            setDeletingProductId(null);
+        }
+     };
+
+     const handleProductEdit = (productToEdit) => {
+        navigate(`/my-products/edit/${productToEdit.id}`, { state: { product: productToEdit } });
+     };
 
     return (
         <div className="my-products-page-container">
@@ -97,6 +101,7 @@ function MyProducts() {
                 loading={loading}
                 error={error}
                 onProductDelete={handleProductDelete}
+                onProductEdit={handleProductEdit}
             />
             {!loading && !error && myProducts.length === 0 && (
                 <p className="product-list-message my-products-empty-message">

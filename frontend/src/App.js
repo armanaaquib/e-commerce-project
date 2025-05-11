@@ -8,6 +8,7 @@ import Home from './components/Home';
 import UserProfile from './components/user/UserProfile';
 import EditUserProfile from './components/user/EditUserProfile';
 import MyProducts from './components/product/MyProducts.js';
+import EditProduct from './components/product/EditProduct.js';
 import './App.css';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/profile" element={isLoggedIn ? <UserProfile /> : <Login />} />
                         <Route path="/profile/edit" element={isLoggedIn ? <EditUserProfile /> : <Login />} />
                         <Route path="/my-products" element={isLoggedIn && userRole === 'Seller' ? <MyProducts /> : <Home />}/>
+                        <Route path="/my-products/edit/:productId" element={isLoggedIn && userRole === 'Seller' ? <EditProduct /> : <Home />} />
                         <Route path="*" element={<Home />} />
                     </Routes>
                 </main>

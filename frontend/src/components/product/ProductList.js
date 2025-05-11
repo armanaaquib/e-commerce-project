@@ -1,7 +1,7 @@
 import React from 'react';
 import './ProductList.css';
 
-function ProductList({ products, loading, error, isSellerView = false, onProductDelete }) {
+function ProductList({ products, loading, error, isSellerView = false, onProductDelete, onProductEdit }) {
     if (loading) {
         return <p className="product-list-message">Loading products...</p>;
     }
@@ -21,6 +21,12 @@ function ProductList({ products, loading, error, isSellerView = false, onProduct
         }
     };
 
+    const handleEditClick = (product) => {
+        if (onProductEdit) {
+            onProductEdit(product);
+        }
+    };
+
     return (
         <div className="product-list-container">
             <div className="product-grid">
@@ -37,8 +43,13 @@ function ProductList({ products, loading, error, isSellerView = false, onProduct
                             <p className="product-price">Rs. {product.price.toFixed(2)}</p>
                             {isSellerView ? (
                                 <div className="seller-actions">
-                                    {/* Add Edit button later if needed */}
-                                    {/* <button className="edit-product-button">Edit</button> */}
+                                     <button
+                                        onClick={() => handleEditClick(product)}
+                                        className="edit-product-button"
+                                        title="Edit Product"
+                                     >
+                                        Edit
+                                     </button>
                                     <button 
                                         onClick={() => handleDeleteClick(product.id)} 
                                         className="delete-product-button"
