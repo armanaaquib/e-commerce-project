@@ -48,4 +48,8 @@ public class ProductService {
     public List<Product> getProductsByCategory(Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
+
+    public List<Product> getProductsBySeller(String sellerUsername) {
+        return productRepository.findBySellerUsername(sellerUsername);
+    }
 }

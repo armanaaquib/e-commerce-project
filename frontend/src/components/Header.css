@@ -99,6 +99,20 @@
     border-color: #bd2130;
 }
 
+.my-products-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+    background-color: #007bff;
+}
+
+.my-products-link:hover {
+    background-color: #0056b3;
+}
+
 @media (max-width: 600px) {
     .app-header {
         padding: 0.8rem 1rem;

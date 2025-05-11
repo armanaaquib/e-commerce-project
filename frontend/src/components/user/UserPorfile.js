@@ -28,7 +28,7 @@ function UserProfile() {
                 setProfile(response.data);
             } catch (err) {
                 console.error("Error fetching profile:", err);
-                if (err.response && err.response.status === 401|| err.response.status === 403) {
+                if (err.response && err.response.status === 401 || err.response.status === 403) {
                     setError('Session expired or invalid. Please login again.');
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('username');

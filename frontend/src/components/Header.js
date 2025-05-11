@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Header.css';
 
-function Header({ isLoggedIn, username, onLogout }) {
+function Header({ isLoggedIn, username, userRole, onLogout }) {
     return (
         <header className="app-header">
             <Link to="/" className="app-title">E-Commerce</Link>
@@ -14,6 +14,9 @@ function Header({ isLoggedIn, username, onLogout }) {
                             <span className="user-icon">👤</span>
                             <span className="username-display">{username}</span>
                         </Link>
+                        {userRole === 'Seller' && (
+                            <Link to="/my-products" className="my-products-link">My Products</Link>
+                        )}
                         <button onClick={onLogout} className="logout-button">Logout</button>
                     </div>
                 ) : (

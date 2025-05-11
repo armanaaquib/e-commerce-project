@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findByCategoryId(Long categoryId);
+    List<Product> findBySellerUsername(String username);
 }

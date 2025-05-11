@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/api/product-categories").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/products/category/*").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole(UserRole.Seller.name())
+                        .requestMatchers(HttpMethod.GET, "/api/products/my-products").hasRole(UserRole.Seller.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +43,24 @@ public class ProductController {
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<ProductResponse>> getProductsByCategory(@PathVariable @NotNull Long categoryId) {
         List<Product> products = productService.getProductsByCategory(categoryId);
+
+        List<ProductResponse> productResponses = products.stream().map(product -> new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getCategory().getName()
+        )).toList();
+
+        return ResponseEntity.ok(productResponses);
+    }
+
+    @GetMapping("/my-products")
+    public ResponseEntity<List<ProductResponse>> getMyProducts() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        List<Product> products = productService.getProductsBySeller(currentPrincipalName);
 
         List<ProductResponse> productResponses = products.stream().map(product -> new ProductResponse(
                 product.getId(),

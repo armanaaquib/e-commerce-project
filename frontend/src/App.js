@@ -6,21 +6,25 @@ import Register from './components/register/Register';
 import AddProduct from './components/product/AddProduct';
 import Home from './components/Home';
 import UserProfile from './components/user/UserProfile';
-import EditUserProfile from './components/user/EditUserPorfile';
-import './App.css'; 
+import EditUserProfile from './components/user/EditUserProfile';
+import MyProducts from './components/product/MyProducts.js';
+import './App.css';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
+    const [userRole, setUserRole] = useState('');
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             setIsLoggedIn(true);
             setUsername(localStorage.getItem('username') || '');
+            setUserRole(localStorage.getItem('userRole') || '');
         } else {
             setIsLoggedIn(false);
             setUsername('');
+            setUserRole('');
         }
     }, []);
 
@@ -30,6 +34,7 @@ function App() {
         localStorage.removeItem('userRole');
         setIsLoggedIn(false);
         setUsername('');
+        setUserRole('');
     };
 
     return (
@@ -38,6 +43,7 @@ function App() {
                 <Header
                     isLoggedIn={isLoggedIn}
                     username={username}
+                    userRole={userRole}
                     onLogout={handleLogout}
                 />
                 <main className="app-content">
@@ -48,6 +54,7 @@ function App() {
                         <Route path="/add-product" element={<AddProduct />} />
                         <Route path="/profile" element={isLoggedIn ? <UserProfile /> : <Login />} />
                         <Route path="/profile/edit" element={isLoggedIn ? <EditUserProfile /> : <Login />} />
+                        <Route path="/my-products" element={isLoggedIn && userRole === 'Seller' ? <MyProducts /> : <Home />}/>
                         <Route path="*" element={<Home />} />
                     </Routes>
                 </main>
