@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/products/my-products").hasRole(UserRole.Seller.name())
                         .requestMatchers(HttpMethod.PUT, "/api/products/{productId}").hasRole(UserRole.Seller.name())
                         .requestMatchers(HttpMethod.DELETE, "/api/products/{productId}").hasRole(UserRole.Seller.name())
+                        .requestMatchers("/api/cart/**").hasRole(UserRole.Customer.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
