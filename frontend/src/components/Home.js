@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import ProductList from './product/ProductList';
 import CategoryList from './category/CategoryList';
 import './Home.css';
@@ -16,6 +15,10 @@ function Home() {
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [productError, setProductError] = useState(null);
+
+    // Add state for Add to Cart success/error messages
+    const [addToCartMessage, setAddToCartMessage] = useState(null);
+    const [addToCartError, setAddToCartError] = useState(null);
 
     const userRole = localStorage.getItem('userRole');
 
@@ -53,6 +56,9 @@ function Home() {
                 setLoadingProducts(true);
                 setProductError(null);
                 setProducts([]);
+                setAddToCartMessage(null);
+                setAddToCartError(null);
+
                 try {
                     const response = await axios.get(`/api/products/category/${selectedCategoryId}`);
                     setProducts(response.data);
@@ -77,6 +83,32 @@ function Home() {
         }
     };
 
+    const handleAddToCart = async (productId) => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            setAddToCartError('Please log in to add items to your cart.');
+            return;
+        }
+
+        setAddToCartMessage(null);
+        setAddToCartError(null);
+
+        try {
+            const quantity = 1;
+            const response = await axios.post(
+                "/api/cart/items",
+                { productId, quantity },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            console.log('Item added to cart:', response.data);
+            setAddToCartMessage('Product added to cart!');
+        } catch (err) {
+            console.error('Failed to add item to cart', err);
+            const errorMessage = err.response?.data?.message || 'Failed to add product to cart.';
+            setAddToCartError(errorMessage);
+        }
+    };
+
     return (
         <div className="home-container">
             <h2>Categories</h2>
@@ -91,12 +123,17 @@ function Home() {
 
             <div className="products-section">
                  <h3>Products</h3>
+
+                 {addToCartMessage && <p className="success-message" style={{textAlign: 'center'}}>{addToCartMessage}</p>}
+                 {addToCartError && <p className="error-message" style={{textAlign: 'center'}}>{addToCartError}</p>}
+
                  {!loadingCategories && !categoryError && selectedCategoryId !== null && (
                     <ProductList
                         products={products}
                         loading={loadingProducts}
                         error={productError}
                         userRole={userRole}
+                        onAddToCart={userRole === 'Customer' ? handleAddToCart : null}
                     />
                  )}
                  {!loadingCategories && selectedCategoryId === null && !categoryError && categories.length > 0 && (

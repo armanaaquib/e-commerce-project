@@ -2,24 +2,6 @@
     margin-top: 1rem;
 }
 
-.product-list-message,
-.product-list-error {
-    text-align: center;
-    margin-top: 1.5rem;
-    color: #555;
-}
-
-.product-list-error {
-    color: #dc3545;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    padding: 0.75rem 1.25rem;
-    margin: 1rem auto;
-    border-radius: 0.25rem;
-    max-width: 600px;
-}
-
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -92,21 +74,27 @@
 }
 
 .add-to-cart-button {
-    background-color: #28a745;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 0.5rem 0.8rem;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 1em;
     text-align: center;
-    transition: background-color 0.2s ease;
-    margin-top: auto;
-    width: 100%;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
 }
 
-.add-to-cart-button:hover {
-    background-color: #218838;
+.add-to-cart-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.add-to-cart-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .seller-actions {
@@ -114,6 +102,26 @@
     display: flex;
     gap: 10px;
     justify-content: flex-end;
+}
+
+.product-list-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.product-list-message {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+    color: #666;
+}
+
+.add-to-cart-button:hover {
+    background-color: #218838;
 }
 
 .delete-product-button {
@@ -129,15 +137,6 @@
 
 .delete-product-button:hover {
     background-color: #c82333;
-}
-
-.product-list-error { 
-    color: #721c24;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    padding: 10px;
-    border-radius: 4px;
-    text-align: center;
 }
 
 .edit-product-button {

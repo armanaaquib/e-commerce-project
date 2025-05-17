@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import useState
 import './ProductList.css';
 
-function ProductList({ products, loading, error, onProductDelete, onProductEdit, userRole }) {
+function ProductList({ products, loading, error, onProductDelete, onProductEdit, userRole, onAddToCart }) {
+    const [addingProductId, setAddingProductId] = useState(null);
+
     if (loading) {
         return <p className="product-list-message">Loading products...</p>;
     }
@@ -29,6 +31,17 @@ function ProductList({ products, loading, error, onProductDelete, onProductEdit,
         }
     };
 
+    const handleAddToCartClick = async (productId) => {
+        if (onAddToCart && !addingProductId) {
+            setAddingProductId(productId);
+            try {
+                await onAddToCart(productId);
+            } finally {
+                setAddingProductId(null);
+            }
+        }
+    };
+
     return (
         <div className="product-list-container">
             <div className="product-grid">
@@ -43,6 +56,7 @@ function ProductList({ products, loading, error, onProductDelete, onProductEdit,
                                 <p className="product-description">{product.description}</p>
                             )}
                             <p className="product-price">Rs. {product.price.toFixed(2)}</p>
+
                             {userRole === 'Seller' && onProductEdit && onProductDelete ? (
                                 <div className="seller-actions">
                                      <button
@@ -57,7 +71,13 @@ function ProductList({ products, loading, error, onProductDelete, onProductEdit,
                                    > Delete </button>
                                 </div>
                             ) : userRole === 'Customer' ? (
-                                <button className="add-to-cart-button">Add to Cart</button>
+                                <button
+                                    className="add-to-cart-button"
+                                    onClick={() => handleAddToCartClick(product.id)}
+                                    disabled={addingProductId === product.id}
+                                >
+                                    {addingProductId === product.id ? 'Adding...' : 'Add to Cart'}
+                                </button>
                             ) : null
                             }
                         </div>
