@@ -10,6 +10,8 @@ import EditUserProfile from './components/user/EditUserProfile';
 import MyProducts from './components/product/MyProducts.js';
 import EditProduct from './components/product/EditProduct.js';
 import Cart from './components/cart/Cart';
+import Checkout from './components/order/Checkout';
+import OrderHistory from './components/order/OrderHistory';
 import './App.css';
 
 function App() {
@@ -59,6 +61,8 @@ function App() {
                         <Route path="/my-products" element={isLoggedIn && userRole === 'Seller' ? <MyProducts /> : <Home />}/>
                         <Route path="/my-products/edit/:productId" element={isLoggedIn && userRole === 'Seller' ? <EditProduct /> : <Home />} />
                         <Route path="/cart" element={isLoggedIn && userRole === 'Customer' ? <Cart /> : <Login />}/>
+                        <Route path="/checkout" element={isLoggedIn && userRole === 'Customer' ? <Checkout /> : <Login />}/>
+                        <Route path="/order-history" element={isLoggedIn && userRole === 'Customer' ? <OrderHistory /> : <Login />}/>
                         <Route path="*" element={<Home />} />
                     </Routes>
                 </main>

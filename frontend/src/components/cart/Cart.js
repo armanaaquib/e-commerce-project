@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CartItem from './CartItem';
 import './Cart.css';
 
-function CartPage() {
+function Cart() {
     const [cart, setCart] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -63,7 +63,7 @@ function CartPage() {
         if (userRole === 'Customer') {
             fetchCart();
         }
-    }, [userRole, navigate]);
+    }, [userRole]);
 
     const handleUpdateQuantity = async (cartItemId, newQuantity) => {
         const token = localStorage.getItem('accessToken');
@@ -166,6 +166,10 @@ function CartPage() {
         }
     };
 
+    const handleProceedToCheckout = () => {
+        navigate('/checkout');
+    };
+
     if (loading) {
         return <div className="cart-page-container"><p>Loading cart...</p></div>;
     }
@@ -194,6 +198,12 @@ function CartPage() {
                     <div className="cart-summary">
                         <p>Total Items: <strong>{cart.totalItems}</strong></p>
                         <p>Total Price: <strong>Rs. {cart.totalPrice ? cart.totalPrice.toFixed(2) : '0.00'}</strong></p>
+                        <button
+                            onClick={handleProceedToCheckout}
+                            className="checkout-button"
+                        >
+                            Proceed to Checkout
+                        </button>
                     </div>
                 </>
             ) : (
@@ -203,4 +213,4 @@ function CartPage() {
     );
 }
 
-export default CartPage;
+export default Cart;
