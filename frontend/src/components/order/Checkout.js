@@ -4,27 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import './Checkout.css';
 
 const PAYMENT_METHODS = [
-    { value: 'CREDIT_CARD', label: 'Credit Card' },
-    { value: 'DEBIT_CARD', label: 'Debit Card' },
-    { value: 'NET_BANKING', label: 'Net Banking' },
-    { value: 'UPI', label: 'UPI' },
-    { value: 'CASH_ON_DELIVERY', label: 'Cash on Delivery' }
+    { value: 'CASH_ON_DELIVERY', label: 'Cash on Delivery' },
+    { value: 'UPI', label: 'UPI' }
 ];
 
 function Checkout() {
     const [shippingAddress, setShippingAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0].value);
-    const [paymentDetails, setPaymentDetails] = useState(''); // Optional
+    const [upiId, setUpiId] = useState('');
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [cartTotal, setCartTotal] = useState(0); // To display cart total
+    const [cartTotal, setCartTotal] = useState(0);
 
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL || '/api';
 
-    // Fetch cart total to display (optional, but good UX)
     useEffect(() => {
         const fetchCartSummary = async () => {
             const token = localStorage.getItem('accessToken');
@@ -39,7 +35,6 @@ function Checkout() {
                 if (response.data && response.data.items.length > 0) {
                     setCartTotal(parseFloat(response.data.totalPrice));
                 } else {
-                    // Cart is empty, redirect back to cart page or home
                     setError("Your cart is empty. Cannot proceed to checkout.");
                     setTimeout(() => navigate('/cart'), 3000);
                 }
@@ -51,10 +46,22 @@ function Checkout() {
         fetchCartSummary();
     }, [apiUrl, navigate]);
 
+    const handlePaymentMethodChange = (e) => {
+        setPaymentMethod(e.target.value);
+        if (e.target.value !== 'UPI') {
+            setUpiId('');
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+
+        if (paymentMethod === 'UPI' && !upiId.trim()) {
+            setError('Please enter your UPI ID for UPI payment.');
+            return;
+        }
+
         setLoading(true);
 
         const token = localStorage.getItem('accessToken');
@@ -68,7 +75,7 @@ function Checkout() {
             shippingAddress,
             phoneNumber,
             paymentMethod,
-            paymentDetails: paymentDetails || null // Send null if empty
+            paymentDetails: paymentMethod === 'UPI' ? upiId : null
         };
 
         try {
@@ -76,7 +83,6 @@ function Checkout() {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('Order placed:', response.data);
-            // On successful order, navigate to order history or a confirmation page
             navigate('/order-history', { state: { message: 'Order placed successfully!' } });
         } catch (err) {
             console.error('Failed to place order', err);
@@ -126,7 +132,7 @@ function Checkout() {
                     <select
                         id="paymentMethod"
                         value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        onChange={handlePaymentMethodChange}
                         required
                     >
                         {PAYMENT_METHODS.map(method => (
@@ -137,18 +143,21 @@ function Checkout() {
                     </select>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="paymentDetails">Payment Details (Optional)</label>
-                    <input
-                        type="text"
-                        id="paymentDetails"
-                        value={paymentDetails}
-                        onChange={(e) => setPaymentDetails(e.target.value)}
-                        placeholder="e.g., Card ending in XXXX, UPI ID"
-                    />
-                </div>
+                {paymentMethod === 'UPI' && (
+                    <div className="form-group">
+                        <label htmlFor="upiId">UPI ID</label>
+                        <input
+                            type="text"
+                            id="upiId"
+                            value={upiId}
+                            onChange={(e) => setUpiId(e.target.value)}
+                            placeholder="Enter your UPI ID (e.g., yourname@bank)"
+                            required={paymentMethod === 'UPI'}
+                        />
+                    </div>
+                )}
 
-                <button type="submit" className="place-order-button" disabled={loading}>
+                <button type="submit" className="place-order-button" disabled={loading || cartTotal === 0}>
                     {loading ? 'Placing Order...' : 'Place Order'}
                 </button>
             </form>

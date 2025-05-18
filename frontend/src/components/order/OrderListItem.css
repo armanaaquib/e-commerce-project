@@ -1,10 +1,9 @@
-/* Path: C:/Users/Aaquib Equbal/work/projects/e-commerce-project/frontend/src/components/order/OrderListItem.css */
 .order-list-item {
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    overflow: hidden; /* To contain border-radius with children */
+    overflow: hidden;
 }
 
 .order-summary-header {
@@ -52,12 +51,11 @@
     padding: 4px 8px;
     border-radius: 4px;
     color: #fff;
-    min-width: 80px; /* Ensure consistent width */
+    min-width: 80px;
     text-align: center;
 }
 
-/* Status specific colors - adjust as needed */
-.status-pending { background-color: #ffc107; color: #212529;}
+.status-placed { background-color: #17a2b8; }
 .status-processing { background-color: #17a2b8; }
 .status-shipped { background-color: #007bff; }
 .status-delivered { background-color: #28a745; }
@@ -89,7 +87,7 @@
 
 .order-details-content {
     padding: 20px;
-    border-top: 1px solid #e9ecef; /* Separator if header doesn't have bottom border */
+    border-top: 1px solid #e9ecef;
     background-color: #fff;
 }
 
@@ -118,8 +116,4 @@
 .order-items-grid {
     display: grid;
     gap: 10px;
-    /* For a single column list of items: */
-    /* grid-template-columns: 1fr; */
-    /* For a multi-column grid if items are small: */
-    /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
 }

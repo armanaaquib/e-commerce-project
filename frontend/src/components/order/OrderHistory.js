@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import OrderListItem from './OrderListItem'; // We'll create this
-import './OrderHistory.css'; // We'll create this
+import OrderListItem from './OrderListItem';
+import './OrderHistory.css';
 
 function OrderHistory() {
     const [orders, setOrders] = useState([]);
@@ -11,16 +11,13 @@ function OrderHistory() {
     const [successMessage, setSuccessMessage] = useState(null);
 
     const navigate = useNavigate();
-    const location = useLocation(); // To get success message from navigation state
-    const apiUrl = process.env.REACT_APP_API_URL || '/api';
+    const location = useLocation();
 
     useEffect(() => {
-        // Check for success message from navigation (e.g., after placing an order)
         if (location.state && location.state.message) {
             setSuccessMessage(location.state.message);
-            // Clear the message from location state so it doesn't reappear on refresh
             navigate(location.pathname, { replace: true, state: {} });
-            setTimeout(() => setSuccessMessage(null), 5000); // Hide after 5 seconds
+            setTimeout(() => setSuccessMessage(null), 5000);
         }
 
         const fetchOrders = async () => {
@@ -32,7 +29,7 @@ function OrderHistory() {
             setLoading(true);
             setError(null);
             try {
-                const response = await axios.get(`${apiUrl}/orders`, {
+                const response = await axios.get('/api/orders', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setOrders(response.data);
@@ -46,7 +43,7 @@ function OrderHistory() {
         };
 
         fetchOrders();
-    }, [apiUrl, navigate, location]);
+    }, [navigate, location]);
 
     if (loading) {
         return <div className="order-history-container"><p className="loading-message">Loading order history...</p></div>;

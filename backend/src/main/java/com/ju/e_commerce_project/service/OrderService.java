@@ -5,8 +5,10 @@ import com.ju.e_commerce_project.dto.response.OrderItemResponse;
 import com.ju.e_commerce_project.dto.response.OrderResponse;
 import com.ju.e_commerce_project.exception.ResourceNotFoundException;
 import com.ju.e_commerce_project.exception.EmptyCartException;
+import com.ju.e_commerce_project.exception.InvalidInputException;
 import com.ju.e_commerce_project.model.*;
 import com.ju.e_commerce_project.model.enums.OrderStatus;
+import com.ju.e_commerce_project.model.enums.PaymentMethod;
 import com.ju.e_commerce_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,16 +25,22 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ProductRepository productRepository;
     private final CartService cartService;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         UserRepository userRepository,
                         CartRepository cartRepository,
+                        CartItemRepository cartItemRepository,
+                        ProductRepository productRepository,
                         CartService cartService) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.productRepository = productRepository;
         this.cartService = cartService;
     }
 
@@ -46,13 +54,25 @@ public class OrderService {
             throw new EmptyCartException("Cart is empty. Add items to your cart before placing an order.");
         }
 
+        if (request.paymentMethod() == PaymentMethod.UPI) {
+            if (request.paymentDetails() == null || request.paymentDetails().isBlank()) {
+                throw new InvalidInputException("UPI ID is required for UPI payment method.");
+            }
+        }
+
         Order order = new Order();
         order.setUser(user);
         order.setShippingAddress(request.shippingAddress());
         order.setPhoneNumber(request.phoneNumber());
         order.setPaymentMethod(request.paymentMethod());
-        order.setPaymentDetails(request.paymentDetails());
-        order.setOrderStatus(OrderStatus.PENDING);
+
+        if (request.paymentMethod() == PaymentMethod.UPI) {
+            order.setPaymentDetails(request.paymentDetails());
+        } else {
+            order.setPaymentDetails(null);
+        }
+
+        order.setOrderStatus(OrderStatus.PLACED);
 
         BigDecimal totalOrderAmount = BigDecimal.ZERO;
 

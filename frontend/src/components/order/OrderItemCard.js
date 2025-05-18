@@ -5,7 +5,7 @@ function OrderItemCard({ item }) {
     return (
         <div className="order-item-card">
             <div className="order-item-image-placeholder">
-                <span>Image</span> {/* Replace with actual image if available */}
+                <span>Image</span>
             </div>
             <div className="order-item-info">
                 <p className="order-item-name">{item.productName}</p>

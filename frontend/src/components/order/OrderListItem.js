@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import OrderItemCard from './OrderItemCard'; // We'll create this next
-import './OrderListItem.css'; // We'll create this
+import OrderItemCard from './OrderItemCard';
+import './OrderListItem.css';
 
 function OrderListItem({ order }) {
     const [showDetails, setShowDetails] = useState(false);

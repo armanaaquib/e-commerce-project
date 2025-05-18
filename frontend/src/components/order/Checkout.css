@@ -91,7 +91,7 @@
     cursor: not-allowed;
 }
 
-.checkout-error { /* For general errors on the page */
+.checkout-error {
     color: #721c24;
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;

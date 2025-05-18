@@ -18,6 +18,6 @@ public record PlaceOrderRequest(
         @NotNull(message = "Payment method cannot be null")
         PaymentMethod paymentMethod,
 
-        @Size(max = 255, message = "Payment details cannot exceed 255 characters")
-        String paymentDetails // Optional, e.g., last 4 digits of card, UPI transaction ID
+        @Size(max = 100, message = "UPI ID cannot exceed 100 characters")
+        String paymentDetails
 ) {}
