@@ -6,17 +6,35 @@ This is the backend service for the E-Commerce Project, built using Spring Boot 
 
 The service provides RESTful APIs for:
 
-*   **Authentication:** User registration and login using JWT (JSON Web Tokens).
-*   **Product Categories:** Listing available product categories.
-*   **Products:** Listing products (potentially filtered by category), adding new products (for authorized sellers).
-*   **Authorization:** Role-based access control (e.g., differentiating between Customers and Sellers).
+*   **Authentication & Authorization:**
+    *   User registration (Customer or Seller roles).
+    *   User login using JWT (JSON Web Tokens) for secure session management.
+    *   Role-based access control to protect endpoints based on user roles (Customer, Seller).
+*   **User Profile Management:**
+    *   Fetching the authenticated user's profile details.
+    *   Updating the authenticated user's personal information.
+*   **Product Categories:**
+    *   Listing all available product categories.
+*   **Product Management:**
+    *   Listing products, filterable by category (for all users).
+    *   Adding new products (for authenticated Sellers).
+    *   Updating existing products (for authenticated Sellers who own the product).
+    *   Deleting products (for authenticated Sellers who own the product).
+    *   Listing products added by the authenticated Seller.
+*   **Shopping Cart Management (for Customers):**
+    *   Fetching the customer's current shopping cart.
+    *   Adding items to the cart.
+    *   Updating the quantity of items in the cart.
+    *   Removing items from the cart.
+*   **Order Management (for Customers):**
+    *   Placing new orders from the items in the cart, including shipping details and payment method (Cash on Delivery or UPI).
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
 *   **Java Development Kit (JDK):** Version 17 or later.
-*   **Gradle:** Version 7.0 or later (The project includes a Gradle Wrapper
+*   **Gradle:** Version 7.0 or later (The project includes a Gradle Wrapper, so direct installation might not be necessary if you use `./gradlew` or `gradlew.bat`).
 *   **Database:** A running instance of **MySQL**. The connection details need to be configured via environment variables.
 
 ## Configuration (Environment Variables)
@@ -47,12 +65,12 @@ The method depends on your operating system and how you run the application:
 **Windows (Command Prompt):**
 `$env:DATABASE_URL = "jdbc:mysql://localhost:3306/ecommerce_db" $env:DATABASE_USERNAME = "your_db_user" $env:DATABASE_PASSWORD = "your_db_password" $env:JWT_SECRET_KEY = "your_jwt_secret"`
 
-> You can add these value directly in application.properties file temporarily as well for running locally and testing the application.
+> Note: You can add these values directly in the application.properties file temporarily for local development and testing, but this is not recommended for production or shared environment
 
 ## Running the Application
 
 1.  **Ensure Prerequisites are met.**
-2.  **Set up the required Environment Variables** (see Configuration section). Make sure your **MySQL** server is running and the specified database exists.
+2.  **Set up the required Environment Variables** (see Configuration section). Make sure your **MySQL** server is running and the specified database exists (the application uses spring.jpa.hibernate.ddl-auto=update which can create/update tables, but the database itself should exist).
 3.  **Navigate to the project's root directory** (where `build.gradle` and `gradlew` are located).
 4.  **Run the application using the Gradle Wrapper:**
 
@@ -60,7 +78,7 @@ The method depends on your operating system and how you run the application:
 `./gradlew bootRun`
 
 **On Windows:**
-`./gradlew bootRun`
+`./gradlew.bat bootRun`
 
 ## Running Tests
 
@@ -73,20 +91,40 @@ The project includes unit and integration tests. The tests are configured to use
 `./gradlew test`
 
 **On Windows:**
-`./gradlew test`
+`./gradlew.bat test`
+
 
 ## API Endpoints (Examples)
-*   `POST /api/auth/register`: Register a new user.
-*   `POST /api/auth/login`: Log in an existing user and receive a JWT.
-*   `GET /api/product-categories`: Get a list of all product categories.
-*   `GET /api/products/category/{categoryId}`: Get products belonging to a specific category.
-*   `POST /api/products`: Add a new product (Requires Seller role and valid JWT).
+
+*   **Authentication:**
+    *   `POST /api/auth/register`: Register a new user (Customer or Seller).
+    *   `POST /api/auth/login`: Log in an existing user and receive a JWT.
+*   **User Profile:**
+    *   `GET /api/users/profile`: Get the authenticated user's profile.
+    *   `PUT /api/users/profile`: Update the authenticated user's profile.
+*   **Product Categories:**
+    *   `GET /api/product-categories`: Get a list of all product categories.
+*   **Products:**
+    *   `GET /api/products/category/{categoryId}`: Get products belonging to a specific category.
+    *   `POST /api/products`: Add a new product (Requires Seller role).
+    *   `PUT /api/products/{productId}`: Update an existing product (Requires Seller role, owner).
+    *   `DELETE /api/products/{productId}`: Delete a product (Requires Seller role, owner).
+    *   `GET /api/products/my-products`: Get products listed by the authenticated Seller.
+*   **Cart (Customer Role):**
+    *   `GET /api/cart`: Get the customer's current cart.
+    *   `POST /api/cart/items`: Add an item to the cart.
+    *   `PUT /api/cart/items/{cartItemId}`: Update an item's quantity in the cart.
+    *   `DELETE /api/cart/items/{cartItemId}`: Remove an item from the cart.
+*   **Orders (Customer Role):**
+    *   `POST /api/orders`: Place a new order.
+    *   `GET /api/orders`: Get the customer's order history.
 
 ## Technologies Used
 *   Java 17+
 *   Spring Boot
 *   Spring Security (with JWT Authentication)
-*   Spring Data JPA
+*   Spring Data JPA (with Hibernate)
+*   Spring Validation
 *   **Gradle** (Build Tool)
 *   **MySQL** (Primary Database)
 *   H2 Database (for testing)
