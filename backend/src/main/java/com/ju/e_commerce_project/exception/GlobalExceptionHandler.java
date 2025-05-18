@@ -59,6 +59,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(EmptyCartException.class)
+    public ResponseEntity<Map<String, Object>> handleEmptyCartException(EmptyCartException e) {
+        logger.warn("Empty cart operation: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception e) {

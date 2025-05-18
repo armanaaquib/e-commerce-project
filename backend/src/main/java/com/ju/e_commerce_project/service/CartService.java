@@ -111,6 +111,20 @@ public class CartService {
         return mapToCartResponse(updatedCart);
     }
 
+    @Transactional
+    public void clearCart(String username) {
+        User user = getUserByUsername(username);
+        Cart cart = cartRepository.findByUser(user).orElse(null);
+
+        if (cart != null && cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
+            cartItemRepository.deleteAll(cart.getCartItems());
+
+            if (cart.getCartItems() != null) {
+                cart.getCartItems().clear();
+            }
+        }
+    }
+
     private User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
