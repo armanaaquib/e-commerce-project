@@ -33,7 +33,7 @@ function Register() {
         } catch (error) {
             console.error('Registration failed', error);
             const errorMessage = error.response?.data?.message ||
-                                 (error.response?.data && typeof error.response.data === 'object' ? JSON.stringify(error.response.data) : null) || // Other potential error structures
+                                 (error.response?.data && typeof error.response.data === 'object' ? JSON.stringify(error.response.data) : null) ||
                                  'Registration failed. Please check your input and try again.';
             alert(errorMessage);
         }
@@ -96,7 +96,6 @@ function Register() {
                 <select value={role} onChange={(e) => setRole(e.target.value)} required>
                     <option value="Customer">Register as Customer</option>
                     <option value="Seller">Register as Seller</option>
-                    <option value="Aadmin">Register as Admin</option>
                 </select>
 
                 <button type="submit">Register</button>
